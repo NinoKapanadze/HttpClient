@@ -25,5 +25,23 @@ namespace RefitTest.Controllers
             var users = await usersClient.GetAll();
             return Ok(users);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(CreateUserDto createUserDto)
+        {
+            var settings = new RefitSettings
+            {
+                ContentSerializer = new SystemTextJsonContentSerializer(new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    WriteIndented = true
+                })
+            };
+
+            var usersClient = RestService.For<IUserClient>("https://localhost:7026/", settings);
+            var users = await usersClient.Create(createUserDto);
+            return Ok(users);
+
+        }
     }
 }

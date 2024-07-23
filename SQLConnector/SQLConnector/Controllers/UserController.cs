@@ -53,11 +53,18 @@ namespace SQLConnector.Controllers
                 Address = address
             };
 
+
+           
+
+
             // Add user to the context
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetAll), new { id = user.Id }, user);
+            var userResponseModel = _mapper.Map<UserResponseModel>(user);
+
+
+            return CreatedAtAction(nameof(GetAll), new { id = userResponseModel.Id }, userResponseModel);
         }
     }    
     public class CreateUserDto
